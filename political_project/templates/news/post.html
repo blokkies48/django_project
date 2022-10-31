@@ -1,0 +1,13 @@
+{% extends "theme/theme.html" %}
+{% block content %}
+<h3><a href="/news/{{post.id}}">{{ post.title }}</a></h3>
+<h6> on {{ post.date }}</h6>
+<div class = "container">
+    {{ post.body|safe|linebreaks}}
+</div>
+<br><br>
+{% endblock %}
+
+<!--this is code from the notes-->
+<!--with some styling-->
+

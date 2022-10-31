@@ -1,0 +1,7 @@
+{% extends 'theme/theme.html' %}
+{% block content %}
+<h2> What are the latest {{ request.resolver_match.view_name}} your fellow voters are talking about?</h2>
+{% for dis in discussions %}
+<h5>{{dis.title}} <a href="/discussions/{{dis.id}}/">More</a></h5>
+{% endfor %}
+{% endblock %}

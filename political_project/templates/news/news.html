@@ -1,0 +1,17 @@
+{% extends "theme/theme.html" %}
+{% block content %}
+<H2>
+    Check out the latest news on your favourite political party
+</H2>
+    <!-- Checks for posts and does logic accordingly -->
+    {% if object_list %}
+        {% for post in object_list %}
+            <h5>{{ post.id }}. <a href="/news/{{post.id}} ">{{ post.title }}</a></h5>
+        {% endfor %}
+    {% else %}
+        <h5>No post available aww</h5>
+        
+    {% endif %}
+    
+{% endblock %}
+<!--this is code from the notes-->
