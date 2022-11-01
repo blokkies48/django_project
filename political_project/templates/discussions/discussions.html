@@ -1,7 +1,41 @@
 {% extends 'theme/theme.html' %}
 {% block content %}
 <h2> What are the latest {{ request.resolver_match.view_name}} your fellow voters are talking about?</h2>
-{% for dis in discussions %}
-<h5>{{dis.title}} <a href="/discussions/{{dis.id}}/">More</a></h5>
-{% endfor %}
+
+<a href="/discussions/new-discussion/">Start a new discussion</a> <!-- Add new -->
+<div class="card_holder">
+    {% for dis in discussions %}
+    <div class="card"> <!-- Each discussion will be displayed in a card -->
+        <h5>{{dis.title}} <a href="/discussions/{{dis.id}}/">More</a></h5> <!-- go to discussion -->
+        <span>@{{dis.host}}</span> 
+        <h6>Topic: {{dis.topic}}</h6>
+        {% if request.user == dis.host %}
+        <a href="{% url  'update-discussion' dis.id %}">Edit</a> <!-- Update -->
+        <a href="{% url  'delete-discussion' dis.id %}">Delete</a> <!-- Delete -->
+        {% endif %}
+    </div>
+    {% endfor %}
+
+</div>
+
+<style>
+    .card{
+        border: 2px solid black;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    /*<!-- Responsive -->*/
+    .card_holder{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 700px) {
+        .card_holder{
+            display: grid;
+        grid-template-columns: 1fr;
+        }
+    }
+</style>
 {% endblock %}
+

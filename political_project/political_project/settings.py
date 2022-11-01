@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # New apps
     'base.apps.BaseConfig',
     'news.apps.NewsConfig',
-    'discu.apps.DiscuConfig'
+    'discu.apps.DiscuConfig',
+    'login.apps.LoginConfig',
 ]
 
 MIDDLEWARE = [
