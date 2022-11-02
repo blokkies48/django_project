@@ -4,21 +4,47 @@
 <!-- info discussion -->
 <h3>{{ discussion.title }}</h3>
 <span>@{{discussion.host}}</span>
+<h4>Description</h4>
 <p>{{discussion.description}}</p>
 
 
 
 <div class="message_container">
+    <hr>
+    <h4>Comments</h4>
     <!-- loop over messages -->
     {% for mes in messages %}
-    {% if mes.discussion == discussion %} <!-- Checks that the discussion key is the discussion -->
-    <div class="message"> <!-- Relative messages are displayed -->
-        <h6>{{mes.user}}</h6>
-        <p>{{mes.body}}</p>
-    </div>
-    {% endif %}
+        {% if mes.discussion == discussion %} <!-- Checks that the discussion key is the discussion -->
+            <div class="message"> <!-- Relative messages are displayed -->
+                <!-- Shows admin next to super users in comments -->
+                {% if mes.user.is_superuser %}
+                    <h6>{{mes.user}}(Admin)</h6>
+                {% else %}
+                    <h6>{{mes.user}}</h6>
+                {% endif %}
+                <p>{{mes.created | timesince}} ago</p>
+                <p>{{mes.body}}</p>
+                {% if request.user == mes.user %}
+                    <a href="{% url  'delete-comment' mes.id %}">Delete</a> <!-- Delete -->
+                {% endif %}
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
+
+<!-- only logged in users can comment condition -->
+{% if request.user.is_authenticated %}
+<div class="comment-form">
+    <h5>Add a new comment</h5>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <textarea rows = "5" cols = "60" name = "body"></textarea><br>
+        <input type="submit" value="Comment">
+    </form>
+</div>
+{% else %}
+<p>Login to comment <a href="/login/">Login</a></p>
+{% endif %}
 
 <style>
     .message{
@@ -29,8 +55,6 @@
     }
 
 </style>
-
-
 
 {% endblock %}
 

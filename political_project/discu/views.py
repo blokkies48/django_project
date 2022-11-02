@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from email import message
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Discussion, Message
 from .forms import Discussion_Form
@@ -16,7 +17,17 @@ def discussions(request):
 # And the messages relating to the discussion 
 def discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
-    messages = Message.objects.all()
+    messages = Message.objects.all().order_by('created')
+
+    # Manages the new comments
+    if request.method == 'POST':
+        messages = Message.objects.create(
+            user = request.user,
+            discussion = discussion,
+            body = request.POST.get('body')
+        )
+        return redirect('discussion', pk=discussion.id)
+
     context = {'discussion': discussion, 'messages': messages}
     return render(request, 'discussions/discussion.html', context)
 
@@ -55,9 +66,22 @@ def update_discussion(request, pk):
 @login_required(login_url="/login")
 def delete_discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
+
+    if request.user != discussion.host:
+        return HttpResponse("You are not the author of this discussion")
+        
     if request.method == "POST":
         discussion.delete()
         return redirect("discussions")
     return render(request, 'discussions/delete.html', {'obj': discussion})
-
-
+    
+@login_required(login_url="/login")
+def delete_comment(request, pk):
+    message = Message.objects.get(id=pk)
+    if request.user != message.user:
+        return HttpResponse("You can not delete this comment")
+        
+    if request.method == "POST":
+        message.delete()
+        return redirect("discussions")
+    return render(request, 'discussions/delete.html', {'obj': message})
