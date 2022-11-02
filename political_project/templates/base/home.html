@@ -1,4 +1,45 @@
 {% extends 'theme/theme.html' %}
 {% block content %}
-<h1>{{ request.resolver_match.view_name.upper}}</h1>
+<div class="hero">
+    <h1>The Django Patriot Union</h1>
+    <h2>We love Django so you should too</h2>
+</div>
+
+<!-- Spacing between elements -->
+<br><br>
+<hr style="width: 100%; border:2px solid darkgrey ;">
+<br><br>
+
+
+<div class="news">
+    <h3>
+        What is the latest happening with the Party
+    </h3>
+    <p><a href="/news">Read the news</a></p>
+
+</div>
+
+
+<!-- Spacing between elements -->
+<br><br>
+<hr style="width: 100%; border:2px solid darkgrey ;">
+<br><br>
+
+<div class="discussions">
+    <h3>What are you fellow supporters talking about</h3>
+    <a href="/discussions">Check it out</a>
+</div>
+
+<!-- Spacing between elements -->
+<br><br>
+<hr style="width: 100%; border:2px solid darkgrey ;">
+<br><br>
+
+<div class="login">
+    <h3>Not a member yet? Resister Now! We will love to have you</h3>
+    <p><a href="/login/register">Register Now!!!</a></p>
+</div>
+
+
+
 {% endblock %}
