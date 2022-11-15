@@ -1,6 +1,6 @@
 ## Run using virtual env 
 ### Activate using virtual env
-After activating the virtual environment
+    After activating the virtual environment
     - cd into political project
     - the run server command
         - python manage.py runserver 8000
