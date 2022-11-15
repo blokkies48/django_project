@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 def discussions(request):
     """
     :param: request
+    
     :returns: render of the list of discussions
     """
     discussions = Discussion.objects.all()

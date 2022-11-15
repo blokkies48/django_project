@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Used for relationship key
 class Topic(models.Model):
-    """Table model for the topics"""
+    """Table model for the Topics"""
     title = models.CharField(max_length=200)
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Discussion(models.Model):
 
 # Message that displays on the table page
 class Message(models.Model):
-    """Table model for the message"""
+    """Table model for the Message"""
     # Setting user key
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Relationship between other database 
