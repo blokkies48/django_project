@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 # Used for relationship key
 class Topic(models.Model):
+    """Table model for the topics"""
     title = models.CharField(max_length=200)
 
     def __str__(self):
@@ -11,6 +12,7 @@ class Topic(models.Model):
 
 # Main table for the discussion
 class Discussion(models.Model):
+    """Table model for the Discussion"""
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=140)
@@ -27,6 +29,7 @@ class Discussion(models.Model):
 
 # Message that displays on the table page
 class Message(models.Model):
+    """Table model for the message"""
     # Setting user key
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Relationship between other database 

@@ -9,6 +9,10 @@ from django.contrib.auth.decorators import login_required
 
 # Gets all the discussions in the database and displays them
 def discussions(request):
+    """
+    :param: request
+    :returns: render of the list of discussions
+    """
     discussions = Discussion.objects.all()
     context = {'discussions': discussions}
     return render(request, 'discussions/discussions.html', context)
@@ -16,6 +20,12 @@ def discussions(request):
 # Displays the info about the discussion
 # And the messages relating to the discussion 
 def discussion(request, pk):
+    """
+    :param: pk
+    :param: request
+
+    :returns: render of a single discussion
+    """
     discussion = Discussion.objects.get(id=pk)
     messages = Message.objects.all().order_by('created')
 
@@ -35,6 +45,11 @@ def discussion(request, pk):
 # User must be logged in to create
 @login_required(login_url="/login")
 def start_discussion(request):
+    """If user is logged in
+        User can start a discussion
+        
+        :returns: Render of new discussion form
+    """
     form = Discussion_Form() # Sets form
     if request.method == 'POST': # Checks if it is a post method in template
         form = Discussion_Form(request.POST)
@@ -48,6 +63,11 @@ def start_discussion(request):
 # The logic in the following functions are basically the same as above
 @login_required(login_url="/login")
 def update_discussion(request, pk):
+    """If user is not logged in
+        They can edit their own discussion
+
+        :returns: render of discussion form with data in it
+    """
     discussion = Discussion.objects.get(id=pk)
     form = Discussion_Form(instance=discussion)
     # Only the user that created of the discussion can update it 
@@ -65,6 +85,11 @@ def update_discussion(request, pk):
 
 @login_required(login_url="/login")
 def delete_discussion(request, pk):
+    """If user is not logged in
+        User can delete their own discussion
+
+        :returns: render of delete template
+    """
     discussion = Discussion.objects.get(id=pk)
 
     if request.user != discussion.host:
@@ -77,6 +102,7 @@ def delete_discussion(request, pk):
     
 @login_required(login_url="/login")
 def delete_comment(request, pk):
+    """Same concept as delete but just with comments"""
     message = Message.objects.get(id=pk)
     if request.user != message.user:
         return HttpResponse("You can not delete this comment")
